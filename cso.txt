@@ -1,6 +1,1 @@
-DB password : #76a0sxP
 
-FTP details
-Host : 148.72.215.51
-username : pankaj
-password : j~27B3da
