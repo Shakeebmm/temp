@@ -37,3 +37,19 @@ db.createUser(
     roles: [ { role: "readWrite", db: "PnP" } ]
   }
 )
+--------------------------------------------------------------------------------
+centerDetails
+
+name : "Karunyam"
+address : "PO. Nanammukku - 679575 "
+desc : "Palliative Care & Rehabilitation Society"
+location : "Changaramkulam"
+phone : "9946729739"
+regno : "383/10"
+
+login
+
+username : "user"
+pwd : "e7fa66c48c9aa186b4ff20b6dadf55c04b581fb832b851fa"
+
+--------------------------------------------------------------------------------
