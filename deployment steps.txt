@@ -1,0 +1,39 @@
+Node JS  
+	https://nodejs.org/en/download/
+
+Mongo DB
+	https://www.mongodb.com/download-center/community?jmp=docs
+	https://www.mongodb.com/download-center/compass
+	
+IIS
+	https://www.simplymigrate.com/2017/04/11/internet-information-server-iis-node-js-in-producton-iisnode/
+	https://www.iis.net/downloads/microsoft/url-rewrite
+	https://github.com/tjanczuk/iisnode/releases/download/v0.2.21/iisnode-full-v0.2.21-x64.msi
+
+DB user creation
+https://medium.com/mongoaudit/how-to-enable-authentication-on-mongodb-b9e8a924efac
+
+---------------------------------------------------------------------------
+
+db.createUser(
+  {
+    user: "useradmin",
+    pwd: "shakeeb",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+
+mongo mongodb://localhost:27017/admin
+
+db.auth("useradmin", "shakeeb")
+
+Use PnP
+
+db.createUser(
+  {
+    user: "pnpadmin",
+    pwd: "p@ssw0rD",
+    roles: [ { role: "readWrite", db: "PnP" } ]
+  }
+)
