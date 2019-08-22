@@ -23,6 +23,7 @@ db.createUser(
   }
 )
 
+C:\Program Files\MongoDB\Server\4.0\bin\mongod.cfg
 
 mongo mongodb://localhost:27017/admin
 
