@@ -2,3 +2,6 @@ SMTPServer	smtp.gmail.com
 SMTPPort	587
 SMTPUserName	suport.sellmax@gmail.com
 SMTPPassword	taolbjkhzazmmknn
+--------------------------------------
+SMTPUserName	suport.sellmax@gmail.com
+SMTPPassword	fjfzjumhpshouegv
