@@ -34,5 +34,5 @@ Tasks
 1. Create user, verify email/sms
 2. Review product
 3. Add to cart (single/multiple products)
-4. Payment
+4. Payment , verify email/sms
 5. Order history
