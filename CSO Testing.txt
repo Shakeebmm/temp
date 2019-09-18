@@ -1,0 +1,38 @@
+Existing issue:
+-----------------
+1. Products added by a seller not visible under seller login, its available in ADMIN login only
+2. Order details of all sellers are shown under every seller login
+
+Login details:
+-----------------
+ADMIN -> admin/Sellm@x
+SELLER -> ebuy/wstcst777
+
+URLs
+------
+Create Category (admin only) ->
+Create field (admin only) ->
+Create filter (admin only) ->
+Add Product (seller) ->
+Publish Product (admin only)
+
+Tasks
+----------
+
+(Admin)
+1. Create category
+2. Create field
+3. Create filter
+4. Publish Product
+
+(Seller)
+1. Create Product
+2. Verify Featured product display in home page ( max 5 products displayed in home page as featured products)
+3. and other feature required for seller
+
+(User)
+1. Create user, verify email/sms
+2. Review product
+3. Add to cart (single/multiple products)
+4. Payment
+5. Order history
