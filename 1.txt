@@ -1,6 +1,33 @@
-palcare.karuna
-karuna@123
+Karuna Mangalam
 
-bakfmvfdopaomzbq
 
-Zi0chWT2th0azoTJSfWGXxRYPU2exInCtRDpItGizBtg1QqLyGVnQ68UDFNQ2OZEh4Z/bryUfY4wRYsLiTccqir0El4HfAUddhuMwBTBl36+WVS28jtEKWSTiQdPiQez
+Update
+---------------------
+spr_ReportIncomeTypeDetails
+spr_TransferEquipment
+spr_GetEquipmentTracker
+spr_ReturnEquipment
+spr_GetEquipmentReport
+spr_AddAccountLedger
+spr_UpdateAccountLedger
+spr_ReportDaybookLedger
+spr_GetCenterDetails
+
+New
+------------------
+spr_AddAsset
+spr_GetAssets
+spr_UpdateAsset
+
+
+table
+-------------
+asset - new
+equipmenttracker
+	ALTER TABLE `palcareplus`.`equipmenttracker` 
+	ADD COLUMN `deposit` DECIMAL(10,2) NULL DEFAULT NULL AFTER `indate`,
+	ADD COLUMN `rent` DECIMAL(10,2) NULL DEFAULT NULL AFTER `deposit`;
+	
+ALTER TABLE `palcareplus`.`center` 
+ADD COLUMN `ExpenseReceiptNo` INT NULL DEFAULT NULL AFTER `DescMal`,
+CHANGE COLUMN `ReceiptNo` `IncomeReceiptNo` INT NULL DEFAULT NULL ;
