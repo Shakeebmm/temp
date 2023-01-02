@@ -1,0 +1,134 @@
+
+IsFollowupRequired
+-------------------------------------------
+CREATE DEFINER=`olive`@`%` PROCEDURE `spr_SaveOP`(
+IN p_in_pno varchar(50),
+IN p_in_history LONGBLOB,
+IN p_in_medicine LONGBLOB,
+IN p_in_nextOPDate datetime,
+IN p_in_isFollowUp tinyint
+)
+BEGIN
+
+	declare p_id int;
+	SELECT Id into p_id FROM patient where PNo = p_in_pno; 
+
+	IF EXISTS (SELECT 1 FROM op where PatientId = p_id) THEN	
+		UPDATE op
+			SET `History` = p_in_history,
+            Medicine = p_in_medicine,
+            NextOPDate = p_in_nextOPDate,
+            IsFollowupRequired = p_in_isFollowUp
+        WHERE PatientId = p_id;
+     ELSE
+		INSERT INTO op
+		(PatientId, `History`, Medicine, NextOPDate, IsFollowupRequired)
+		VALUES
+		(p_id, p_in_history, p_in_medicine, p_in_nextOPDate, p_in_isFollowUp);
+     END IF;
+	
+
+END
+----------------------------------------------------------------------
+CREATE DEFINER=`olive`@`%` PROCEDURE `spr_GetOP`(
+IN p_in_pno varchar(50)
+)
+BEGIN
+
+	declare p_id int;
+	SELECT Id into p_id FROM patient where PNo = p_in_pno; 
+
+	Select op.`History`, op.Medicine, op.NextOPDate, op.IsFollowupRequired
+	from op op where op.PatientId = p_id;
+    
+    select PrevBalance + Consultation + Products - Paid as Balance
+    from patientpayment where patientid = p_id
+	order by id desc LIMIT 1;
+    
+    select 
+		Id,
+		TransactionDate,
+		PrevBalance,
+		Consultation,
+		Products,
+		PrevBalance + Consultation + Products as Total,
+		Paid,
+		PrevBalance + Consultation + Products - Paid as Balance
+		from patientpayment where patientid = p_id
+		order by TransactionDate desc, Id desc;
+
+END
+---------------------------------------------------------------------
+CREATE DEFINER=`olive`@`%` PROCEDURE `spr_GetPatientList`(
+IN p_in_status varchar(20),
+IN p_in_searchText varchar(50)
+)
+BEGIN
+
+	IF p_in_status = 'Active' THEN
+		select 
+		`Id`,`PNo`,`Name`,`Age`,`Address`,`Grade`,`Gender`,`Panjayath`,`WardNo`,`Phone1`,`Phone2`,
+		`RegDate`,`ExpDate`,`DropDate`,`Volunteer`,`Diagnosis`,`Temp`,`Route`,`HomeCarePlan`
+		from patient
+        where ExpDate is null and DropDate is null and Temp = 0
+        Order by `PNo`;
+	ELSEIF p_in_status = 'Expired' THEN
+		select 
+		`Id`,`PNo`,`Name`,`Age`,`Address`,`Grade`,`Gender`,`Panjayath`,`WardNo`,`Phone1`,`Phone2`,
+		`RegDate`,`ExpDate`,`DropDate`,`Volunteer`,`Diagnosis`,`Temp`,`Route`,`HomeCarePlan`
+		from patient
+        where ExpDate is not null
+        Order by `PNo`;
+    ELSEIF p_in_status = 'Temp' THEN
+		select 
+		`Id`,`PNo`,`Name`,`Age`,`Address`,`Grade`,`Gender`,`Panjayath`,`WardNo`,`Phone1`,`Phone2`,
+		`RegDate`,`ExpDate`,`DropDate`,`Volunteer`,`Diagnosis`,`Temp`,`Route`,`HomeCarePlan`
+		from patient
+         where Temp = 1
+         Order by `PNo`;
+    ELSEIF p_in_status = 'Dropout' THEN 
+		select 
+		`Id`,`PNo`,`Name`,`Age`,`Address`,`Grade`,`Gender`,`Panjayath`,`WardNo`,`Phone1`,`Phone2`,
+		`RegDate`,`ExpDate`,`DropDate`,`Volunteer`,`Diagnosis`,`Temp`,`Route`,`HomeCarePlan`
+		from patient
+        where DropDate is not null
+        Order by `PNo`;
+    ELSEIF p_in_status = 'ActiveWithTemp' THEN 
+		select 
+		`Id`,`PNo`,`Name`,`Age`,`Address`,`Grade`,`Gender`,`Panjayath`,`WardNo`,`Phone1`,`Phone2`,
+		`RegDate`,`ExpDate`,`DropDate`,`Volunteer`,`Diagnosis`,`Temp`,`Route`,`HomeCarePlan`
+		from patient
+        where ExpDate is null and DropDate is null
+        Order by `PNo`;
+	ELSEIF p_in_status = 'All' THEN 
+		select 
+		`Id`,`PNo`,`Name`,`Age`,`Address`,`Grade`,`Gender`,`Panjayath`,`WardNo`,`Phone1`,`Phone2`,
+		`RegDate`,`ExpDate`,`DropDate`,`Volunteer`,`Diagnosis`,`Temp`,`Route`,`HomeCarePlan`
+		from patient
+        Order by `PNo`;
+	ELSEIF p_in_status = 'NextOP' THEN
+		select 
+		p.`Id`,p.`PNo`,p.`Name`,p.`Phone1`, op.NextOPDate
+		from patient p
+        inner join op op on p.id = op.PatientId
+        where year(op.nextopdate) != 1
+        Order by `PNo`;
+	ELSEIF p_in_status = 'Followup' THEN
+		select 
+		p.`Id`,p.`PNo`,p.`Name`,p.`Phone1`
+		from patient p
+        inner join op op on p.id = op.PatientId
+        where op.IsFollowupRequired = 1
+        Order by `PNo`;
+	ELSEIF p_in_status = 'Phone' THEN
+		select 
+		`Id`,`PNo`,`Name`,`Age`,`Address`,`Grade`,`Gender`,`Panjayath`,`WardNo`,`Phone1`,`Phone2`,
+		`RegDate`,`ExpDate`,`DropDate`,`Volunteer`,`Diagnosis`,`Temp`,`Route`,`HomeCarePlan`
+		from patient
+        where ExpDate is null and DropDate is null and Temp = 0
+        and Phone1 = p_in_searchText
+        Order by `PNo`;
+    END IF;
+
+END
+--------------------------------------------
